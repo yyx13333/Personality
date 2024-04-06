@@ -11,11 +11,11 @@ from translate import Translator  # noqa
 # tokenizer = AutoTokenizer.from_pretrained("../../bert/",
 #                                           config="../../bert/tokenizer_config.json",
 #                                           vocab_file="../../bert/vocab.txt")
-config = AutoConfig.from_pretrained("../../bert/config.json")
-tokenizer = BertTokenizer.from_pretrained("../../bert/",
-                                          config="../../bert/tokenizer_config.json",
-                                          vocab_file="../../bert/vocab.txt")
-model = BertModel.from_pretrained("../../bert/pytorch_model.bin", config=config)
+config = AutoConfig.from_pretrained("../bert/config.json")
+tokenizer = BertTokenizer.from_pretrained("../bert/",
+                                          config="../bert/tokenizer_config.json",
+                                          vocab_file="../bert/vocab.txt")
+model = BertModel.from_pretrained("../bert/pytorch_model.bin", config=config)
 
 # -------------------------打开myCPED.csv文件------------------------------
 with open("../data/myCPED/tarin_data_bert.json.feature_emo0", "w", encoding="utf-8") as file:
