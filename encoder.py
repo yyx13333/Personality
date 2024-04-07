@@ -32,7 +32,7 @@ with open("../data/myCPED/tarin_data_bert.json.feature_emo0", "w", encoding="utf
                 print(diglog)
                 all.append(diglog)
                 diglog = []
-            input_text = '以一种'+Translator(from_lang="English",to_lang="Chinese").translate(row[2])+"的情绪说："+row[3]
+            input_text = '以一种'+row[2]+"的情绪说："+row[3]
             # 使用tokenizer对输入文本进行编码
             input_ids = tokenizer(input_text, return_tensors="pt", truncation=True)
             output = model(**input_ids).pooler_output.tolist()
