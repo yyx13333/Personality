@@ -43,7 +43,7 @@ def sample_sync_call_streaming():
 
 
 
-prompt = '你是一个擅长挖掘对话中心理特征信息的有用助手，下面是一段对话，请说明人物的心理状态,并扩充语义信息'
+prompt = '你是一个擅长挖掘对话中心理特征信息的对话助手，下面是一段对话，将说话者说的话语情绪增强，但是却要符合对话原有的意思”'
 def call_with_messages(myStr):
     one = {'role': 'system',
            'content': prompt}
@@ -67,22 +67,29 @@ def call_with_messages(myStr):
         ))
 
 def semanticExtension():
-    with open("../data/myCPED/myCPED.csv", "r", encoding="utf-8") as f:
-        reader = csv.reader(f)
-        count = 0
-        for row in reader:
-            if row[1] == '1':
-                count += 1
-                if count != 1:
-                    t = call_with_messages(myStr)
-                    print(t)
-                myStr = ''
-                myStr += row[0]+'以一种'+row[2]+'的情绪说:'+row[3]+'。'
-            else:
-                myStr += row[0] + '以一种' + row[2] + '的情绪说:' + row[3] + '。'
+    with open("./myCPEDTongyi.csv","w",encoding="utf-8") as p:
+        with open("../data/myCPED/myCPED.csv", "r", encoding="utf-8") as f:
+            reader = csv.reader(f)
+            count = 0
+            flag = 0
+            for row in reader:
+                #---------------------------
+                if row[1] == '1':
+                    count += 1
+                    if count != 1:
+                        t = call_with_messages(myStr)
+                        p.write(t+'\n')
+                        print(t)
+                    myStr = ''
+                    myStr += row[0]+'以一种'+row[2]+'的情绪说:'+row[3]+'。'
+                else:
+                    if row[1] <='60':
+                        myStr += row[0] +'以一种' + row[2] + '的情绪说:' + row[3] + '。'
 
-        call_with_messages(myStr)
-
+            t = call_with_messages(myStr)
+            p.write(t)
+        f.close()
+    p.close()
 
 if __name__ == '__main__':
     # call_with_messages('可以的！')

@@ -9,9 +9,9 @@ import torch
 from torch import nn
 from transformers import AdamW
 
-from myExperiment.myNew.dataloader import get_CPED_loaders
-from myExperiment.myNew.model import DAGERC_fushion
-from myExperiment.myNew.trainer import train_or_eval_model
+from dataloader import get_CPED_loaders
+from model import DAGERC_fushion
+from trainer import train_or_eval_model
 
 seed = 100
 os.environ["CUDA_VISIBLE_DEVICES"] = '0'
@@ -55,8 +55,8 @@ if __name__ == '__main__':
 
     parser.add_argument('--bert_dim', type=int, default=768)
     parser.add_argument('--hidden_dim', type=int, default=512)
-    parser.add_argument('--mlp_layers', type=int, default=15, help='Number of output mlp layers.')
-    parser.add_argument('--gnn_layers', type=int, default=15, help='Number of gnn layers.')
+    parser.add_argument('--mlp_layers', type=int, default=0, help='Number of output mlp layers.')
+    parser.add_argument('--gnn_layers', type=int, default=0, help='Number of gnn layers.')
     parser.add_argument('--emb_dim', type=int, default=768, help='Feature size.')
 
     parser.add_argument('--attn_type', type=str, default='rgcn', choices=['dotprod', 'linear', 'bilinear', 'rgcn'],
