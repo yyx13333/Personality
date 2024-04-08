@@ -19,7 +19,7 @@ model = BertModel.from_pretrained("../bert/pytorch_model.bin", config=config)
 
 # -------------------------打开myCPED.csv文件------------------------------
 with open("../data/myCPED/tarin_data_bert.json.feature_emo0", "w", encoding="utf-8") as file:
-    with open("../data/myCPED/myCPED.csv", "r", encoding="utf-8") as f:
+    with open("../data/myCPED/new_myCPED.csv", "r", encoding="utf-8") as f:
         reader = csv.reader(f)
         count = 0
         diglog = []

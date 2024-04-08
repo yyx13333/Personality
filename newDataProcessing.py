@@ -34,6 +34,7 @@ with open('../data/CPED/train_split.csv', encoding='utf-8') as file:
                 newRow.append(count)
                 newRow.append(emotion)
                 newRow.append(context)
+                newRow.append(cls)
                 myData.writerow(newRow)
                 context = ''
                 cls = ''
