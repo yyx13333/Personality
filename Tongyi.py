@@ -68,26 +68,42 @@ def call_with_messages(myStr):
 
 def semanticExtension():
     with open("./myCPEDTongyi.csv","w",encoding="utf-8") as p:
-        with open("../data/myCPED/myCPED.csv", "r", encoding="utf-8") as f:
+        with open("../data/CPED/train_split.csv", "r", encoding="utf-8") as f:
             reader = csv.reader(f)
+            writer = csv.writer(p)
             count = 0
             flag = 0
+            dialogue_ID = ''
+            newRow = []
+            myStr = ''
             for row in reader:
+                if flag == 0:
+                    flag = 1
+                    continue
                 #---------------------------
-                if row[1] == '1':
-                    count += 1
-                    if count != 1:
+                if dialogue_ID == '':
+                    dialogue_ID = row[1]
+                if row[1] != dialogue_ID:
+                    if count <= 60:
                         t = call_with_messages(myStr)
-                        p.write(t+'\n')
-                        print(t)
+                    if t == '':
+                        t = 'None'
+                    newRow.append(dialogue_ID)
+                    newRow.append(t)
+                    writer.writerow(newRow)
+                    newRow = []
+                    count = 0
+                    print(t)
                     myStr = ''
-                    myStr += row[0]+'以一种'+row[2]+'的情绪说:'+row[3]+'。'
+                    myStr += row[3]+'以一种'+row[15]+'的情绪说:'+row[17]+'。'
                 else:
-                    if row[1] <='60':
-                        myStr += row[0] +'以一种' + row[2] + '的情绪说:' + row[3] + '。'
+                    count += 1
+                    myStr += row[3] +'以一种' + row[15] + '的情绪说:' + row[17] + '。'
 
             t = call_with_messages(myStr)
-            p.write(t)
+            newRow.append(dialogue_ID)
+            newRow.append(t)
+            writer.writerow(newRow)
         f.close()
     p.close()
 
