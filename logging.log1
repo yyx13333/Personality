@@ -1,2 +1,14 @@
-[2024-04-09 14:06:47,967][test.py][line:111][INFO] start training on GPU 0!
-[2024-04-09 14:06:47,967][test.py][line:112][INFO] Namespace(bert_model_dir='', bert_tokenizer_dir='', bert_dim=768, hidden_dim=512, mlp_layers=4, gnn_layers=4, emb_dim=768, attn_type='rgcn', no_rel_attn=False, max_sent_len=200, no_cuda=False, dataset_name='IEMOCAP', windowp=1, windowf=0, max_grad_norm=5.0, lr=0.1, dropout=0, batch_size=8, epochs=100, tensorboard=False, nodal_att_type=None, cuda=False)
+[2024-04-09 21:23:06,283][test.py][line:111][INFO] start training on GPU 0!
+[2024-04-09 21:23:06,283][test.py][line:112][INFO] Namespace(bert_model_dir='', bert_tokenizer_dir='', bert_dim=768, hidden_dim=512, mlp_layers=2, gnn_layers=2, emb_dim=768, attn_type='rgcn', no_rel_attn=False, max_sent_len=200, no_cuda=False, dataset_name='IEMOCAP', windowp=1, windowf=0, max_grad_norm=5.0, lr=0.001, dropout=0.6, batch_size=8, epochs=100, tensorboard=False, nodal_att_type=None, cuda=False)
+[2024-04-09 21:26:01,214][test.py][line:144][INFO] Epoch: 1, train_loss: 0.958, train_acc: 48.85, train_micro_fscore: 15.97, train_macro_fscore: 27.63, time: 165.89 sec
+[2024-04-09 21:28:53,477][test.py][line:144][INFO] Epoch: 2, train_loss: 0.956, train_acc: 49.14, train_micro_fscore: 12.85, train_macro_fscore: 26.63, time: 172.26 sec
+[2024-04-09 21:31:48,457][test.py][line:144][INFO] Epoch: 3, train_loss: 0.9474, train_acc: 50.15, train_micro_fscore: 6.31, train_macro_fscore: 24.63, time: 174.98 sec
+[2024-04-09 21:34:41,028][test.py][line:144][INFO] Epoch: 4, train_loss: 0.9427, train_acc: 49.88, train_micro_fscore: 7.43, train_macro_fscore: 25.01, time: 172.57 sec
+[2024-04-09 21:37:35,727][test.py][line:144][INFO] Epoch: 5, train_loss: 0.9387, train_acc: 50.3, train_micro_fscore: 12.7, train_macro_fscore: 26.93, time: 174.7 sec
+[2024-04-09 21:40:27,009][test.py][line:144][INFO] Epoch: 6, train_loss: 0.9408, train_acc: 50.33, train_micro_fscore: 14.58, train_macro_fscore: 27.6, time: 171.28 sec
+[2024-04-09 21:43:17,711][test.py][line:144][INFO] Epoch: 7, train_loss: 0.9404, train_acc: 50.09, train_micro_fscore: 10.78, train_macro_fscore: 26.22, time: 170.7 sec
+[2024-04-09 21:46:20,091][test.py][line:144][INFO] Epoch: 8, train_loss: 0.9321, train_acc: 50.57, train_micro_fscore: 16.51, train_macro_fscore: 28.31, time: 182.38 sec
+[2024-04-09 21:49:28,027][test.py][line:144][INFO] Epoch: 9, train_loss: 0.9487, train_acc: 50.5, train_micro_fscore: 16.01, train_macro_fscore: 28.26, time: 187.94 sec
+[2024-04-09 21:52:33,410][test.py][line:144][INFO] Epoch: 10, train_loss: 0.9537, train_acc: 50.26, train_micro_fscore: 12.46, train_macro_fscore: 26.85, time: 185.38 sec
+[2024-04-09 21:55:42,360][test.py][line:144][INFO] Epoch: 11, train_loss: 0.9313, train_acc: 50.59, train_micro_fscore: 14.44, train_macro_fscore: 27.61, time: 188.95 sec
+[2024-04-09 21:58:47,283][test.py][line:144][INFO] Epoch: 12, train_loss: 0.945, train_acc: 50.67, train_micro_fscore: 17.52, train_macro_fscore: 28.7, time: 184.92 sec

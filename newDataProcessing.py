@@ -6,6 +6,7 @@
 import csv
 
 from tensorboardX import FileWriter
+from translate import Translator
 
 with open('../data/CPED/train_split.csv', encoding='utf-8') as file:
     reader = csv.reader(file)
@@ -13,6 +14,7 @@ with open('../data/CPED/train_split.csv', encoding='utf-8') as file:
         myData = csv.writer(f)
         dialogue_ID = ''
         Utterance_ID = ''
+        dict_emo = {}
         count = 0
         speaker = ''
         newRow = []
@@ -32,7 +34,11 @@ with open('../data/CPED/train_split.csv', encoding='utf-8') as file:
                 count = count + 1
                 newRow.append(speaker)
                 newRow.append(count)
-                newRow.append(emotion)
+                if emotion in dict_emo.keys():
+                    pass
+                else:
+                    dict_emo[emotion] = Translator(from_lang="English",to_lang="Chinese").translate(emotion)
+                newRow.append(dict_emo[emotion])
                 newRow.append(context)
                 newRow.append(cls)
                 myData.writerow(newRow)

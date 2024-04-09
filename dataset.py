@@ -16,7 +16,7 @@ class CPEDDataset(Dataset):
         self.len = len(self.data)
 
     def read(self, dataset_name, split, tokenizer):
-        with open("../data/myCPED/tarin_data_bert.json.feature_emo0", encoding="utf-8") as f:
+        with open("../data/myCPED/new_tarin_data_bert.json.feature", encoding="utf-8") as f:
             raw_data = json.load(f)
 
         diglogs = []
@@ -27,7 +27,6 @@ class CPEDDataset(Dataset):
             features = []
             for i, u in enumerate(d):
                 uterances.append(u["text"])
-                print(u)
                 labels.append(self.label_vocab['stoi'][u["label"]] if 'label' in u.keys() else -1)
                 speakers.append(self.speaker_vocab['stoi'][u['speaker']])
                 features.append(u['cls'])
