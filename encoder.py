@@ -14,11 +14,11 @@ from translate import Translator  # noqa
 config = AutoConfig.from_pretrained("../bert/config.json")
 tokenizer = BertTokenizer.from_pretrained("../bert/",
                                           config="../bert/tokenizer_config.json",
-                                          vocab_file="../bert/vocab.txt")
+                                          vocab_file="../bert/vocab.txt")220210
 model = BertModel.from_pretrained("../bert/pytorch_model.bin", config=config)
 
 # -------------------------打开myCPED.csv文件------------------------------
-with open("../data/myCPED/tarin_data_bert.json.feature_emo0", "w", encoding="utf-8") as file:
+with open("../data/myCPED/new_tarin_data_bert.json.feature", "w", encoding="utf-8") as file:
     with open("../data/myCPED/new_myCPED.csv", "r", encoding="utf-8") as f:
         reader = csv.reader(f)
         count = 0
@@ -32,7 +32,7 @@ with open("../data/myCPED/tarin_data_bert.json.feature_emo0", "w", encoding="utf
                 print(diglog)
                 all.append(diglog)
                 diglog = []
-            input_text = '以一种'+row[2]+"的情绪说："+row[3]
+            input_text = row[3]
             # 使用tokenizer对输入文本进行编码
             input_ids = tokenizer(input_text, return_tensors="pt", truncation=True)
             output = model(**input_ids).pooler_output.tolist()

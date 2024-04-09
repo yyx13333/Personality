@@ -62,11 +62,10 @@ class DAGERC_fushion(nn.Module):
         for _ in range(args.mlp_layers - 1):
             layers += [nn.Linear(args.hidden_dim, args.hidden_dim), nn.ReLU()]
         layers += [self.dropout]
-
         layers += [nn.Linear(args.hidden_dim, num_class)]
 
         self.out_mlp = nn.Sequential(*layers)
-        self.linear2 = nn.Linear(args.hidden_dim, num_class)
+
         self.attentive_node_features = attentive_node_features(in_dim)
 
     def forward(self, features, adj, s_mask, s_mask_onehot, lengths):
@@ -80,44 +79,44 @@ class DAGERC_fushion(nn.Module):
         num_utter = features.size()[1]
 
         H0 = F.relu(self.fc1(features))
-        # # H0 = self.dropout(H0)
-        # H = [H0]
-        # for l in range(self.args.gnn_layers):
-        #     C = self.grus_c[l](H[l][:, 0, :]).unsqueeze(1)
-        #     M = torch.zeros_like(C).squeeze(1)
-        #     # P = M.unsqueeze(1)
-        #     P = self.grus_p[l](M, H[l][:, 0, :]).unsqueeze(1)
-        #     # H1 = F.relu(self.fcs[l](torch.cat((C,P) , dim = 2)))
-        #     # H1 = F.relu(C+P)
-        #     H1 = C + P
-        #     for i in range(1, num_utter):
-        #         # print(i,num_utter)
-        #         if self.args.attn_type == 'rgcn':
-        #             _, M = self.gather[l](H[l][:, i, :], H1, H1, adj[:, i, :i], s_mask[:, i, :i])
-        #             # _, M = self.gather[l](H[l][:,i,:], H1, H1, adj[:,i,:i], s_mask_onehot[:,i,:i,:])
-        #         else:
-        #             if not self.rel_attn:
-        #                 _, M = self.gather[l](H[l][:, i, :], H1, H1, adj[:, i, :i])
-        #             else:
-        #                 _, M = self.gather[l](H[l][:, i, :], H1, H1, adj[:, i, :i], s_mask[:, i, :i])
-        #
-        #         C = self.grus_c[l](H[l][:, i, :], M).unsqueeze(1)
-        #         P = self.grus_p[l](M, H[l][:, i, :]).unsqueeze(1)
-        #         # P = M.unsqueeze(1)
-        #         # H_temp = F.relu(self.fcs[l](torch.cat((C,P) , dim = 2)))
-        #         # H_temp = F.relu(C+P)
-        #         H_temp = C + P
-        #         H1 = torch.cat((H1, H_temp), dim=1)
-        #         # print('H1', H1.size())
-        #         # print('----------------------------------------------------')
-        #     H.append(H1)
-        # H.append(features)
-        #
-        # H = torch.cat(H, dim=2)
-        #
-        # H = self.attentive_node_features(H0, lengths, self.nodal_att_type)
-        #
-        # logits = self.out_mlp(H)
-        logits = self.linear2(H0)
-        logits = F.softmax(logits,dim=1)
+        # H0 = self.dropout(H0)
+        H = [H0]
+        for l in range(self.args.gnn_layers):
+            C = self.grus_c[l](H[l][:, 0, :]).unsqueeze(1)
+            M = torch.zeros_like(C).squeeze(1)
+            # P = M.unsqueeze(1)
+            P = self.grus_p[l](M, H[l][:, 0, :]).unsqueeze(1)
+            # H1 = F.relu(self.fcs[l](torch.cat((C,P) , dim = 2)))
+            # H1 = F.relu(C+P)
+            H1 = C + P
+            for i in range(1, num_utter):
+                # print(i,num_utter)
+                if self.args.attn_type == 'rgcn':
+                    _, M = self.gather[l](H[l][:, i, :], H1, H1, adj[:, i, :i], s_mask[:, i, :i])
+                    # _, M = self.gather[l](H[l][:,i,:], H1, H1, adj[:,i,:i], s_mask_onehot[:,i,:i,:])
+                else:
+                    if not self.rel_attn:
+                        _, M = self.gather[l](H[l][:, i, :], H1, H1, adj[:, i, :i])
+                    else:
+                        _, M = self.gather[l](H[l][:, i, :], H1, H1, adj[:, i, :i], s_mask[:, i, :i])
+
+                C = self.grus_c[l](H[l][:, i, :], M).unsqueeze(1)
+                P = self.grus_p[l](M, H[l][:, i, :]).unsqueeze(1)
+                # P = M.unsqueeze(1)
+                # H_temp = F.relu(self.fcs[l](torch.cat((C,P) , dim = 2)))
+                # H_temp = F.relu(C+P)
+                H_temp = C + P
+                H1 = torch.cat((H1, H_temp), dim=1)
+                # print('H1', H1.size())
+                # print('----------------------------------------------------')
+            H.append(H1)
+        H.append(features)
+
+        H = torch.cat(H, dim=2)
+
+        H = self.attentive_node_features(H, lengths, self.nodal_att_type)
+
+        logits = self.out_mlp(H)
+
         return logits
+

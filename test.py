@@ -55,8 +55,8 @@ if __name__ == '__main__':
 
     parser.add_argument('--bert_dim', type=int, default=768)
     parser.add_argument('--hidden_dim', type=int, default=512)
-    parser.add_argument('--mlp_layers', type=int, default=0, help='Number of output mlp layers.')
-    parser.add_argument('--gnn_layers', type=int, default=0, help='Number of gnn layers.')
+    parser.add_argument('--mlp_layers', type=int, default=4, help='Number of output mlp layers.')
+    parser.add_argument('--gnn_layers', type=int, default=4, help='Number of gnn layers.')
     parser.add_argument('--emb_dim', type=int, default=768, help='Feature size.')
 
     parser.add_argument('--attn_type', type=str, default='rgcn', choices=['dotprod', 'linear', 'bilinear', 'rgcn'],
@@ -79,7 +79,7 @@ if __name__ == '__main__':
 
     parser.add_argument('--max_grad_norm', type=float, default=5.0, help='Gradient clipping.')
 
-    parser.add_argument('--lr', type=float, default=0.01, metavar='LR', help='learning rate')
+    parser.add_argument('--lr', type=float, default=0.1, metavar='LR', help='learning rate')
 
     parser.add_argument('--dropout', type=float, default=0, metavar='dropout', help='dropout rate')
 
@@ -107,7 +107,7 @@ if __name__ == '__main__':
 
         writer = SummaryWriter()
 
-    logger = get_logger('./logging.log')
+    logger = get_logger('./logging.log1')
     logger.info('start training on GPU {}!'.format(os.environ["CUDA_VISIBLE_DEVICES"]))
     logger.info(args)
 
