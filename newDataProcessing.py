@@ -42,6 +42,7 @@ with open('../data/CPED/train_split.csv', encoding='utf-8') as file:
             speaker = row[3]
             emotion = row[15]
             context = context + row[17] + '。'
+            cls = ''
             for i in range(6, 11):
                 if row[i] == 'high':
                     cls = cls + '1'

@@ -27,6 +27,7 @@ class CPEDDataset(Dataset):
             features = []
             for i, u in enumerate(d):
                 uterances.append(u["text"])
+                print(u)
                 labels.append(self.label_vocab['stoi'][u["label"]] if 'label' in u.keys() else -1)
                 speakers.append(self.speaker_vocab['stoi'][u['speaker']])
                 features.append(u['cls'])
