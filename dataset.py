@@ -16,7 +16,7 @@ class CPEDDataset(Dataset):
         self.len = len(self.data)
 
     def read(self, dataset_name, split, tokenizer):
-        with open("../data/myCPED/new_tarin_data_bert.json.feature", encoding="utf-8") as f:
+        with open("../data/myCPED/tarin_data_bert.json.feature", encoding="utf-8") as f:
             raw_data = json.load(f)
 
         diglogs = []
@@ -25,7 +25,11 @@ class CPEDDataset(Dataset):
             labels = []
             speakers = []
             features = []
+            flag = 0
             for i, u in enumerate(d):
+                if flag == 0:
+                    flag = 1
+                    continue
                 uterances.append(u["text"])
                 labels.append(self.label_vocab['stoi'][u["label"]] if 'label' in u.keys() else -1)
                 speakers.append(self.speaker_vocab['stoi'][u['speaker']])
@@ -120,8 +124,16 @@ class CPEDDataset(Dataset):
             lengths: (B, )
             utterances:  not a tensor
         '''
+        #----------------------------------------------------
         max_diglog_len = max([d[3] for d in data])
-        features = pad_sequence([d[0] for d in data], batch_first=True)
+        for d in data:
+            print(d)
+            print(
+                "------------------------------------------------------------------------------------------------------")
+            features = pad_sequence([d[0]], batch_first=True)
+
+
+        # features = pad_sequence([d[0] for d in data], batch_first=True)
         labels = pad_sequence([d[1] for d in data], batch_first=True, padding_value=-1)
         adj = self.get_adj_v1([d[2] for d in data], max_diglog_len)
         s_mask, s_mask_onehot = self.get_s_mask([d[2] for d in data], max_diglog_len)

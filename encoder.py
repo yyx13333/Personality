@@ -18,8 +18,8 @@ tokenizer = BertTokenizer.from_pretrained("../bert/",
 model = BertModel.from_pretrained("../bert/pytorch_model.bin", config=config)
 
 # -------------------------打开myCPED.csv文件------------------------------
-with open("../data/myCPED/new_tarin_data_bert.json.feature", "w", encoding="utf-8") as file:
-    with open("../data/myCPED/new_myCPED.csv", "r", encoding="utf-8") as f:
+with open("../data/myCPED/tarin_data_bert.json.feature", "w", encoding="utf-8") as file:
+    with open("../data/myCPED/myCped.csv", "r", encoding="utf-8") as f:
         reader = csv.reader(f)
         count = 0
         diglog = []
@@ -36,13 +36,10 @@ with open("../data/myCPED/new_tarin_data_bert.json.feature", "w", encoding="utf-
             # 使用tokenizer对输入文本进行编码
             input_ids = tokenizer(input_text, return_tensors="pt", truncation=True)
             output = model(**input_ids).pooler_output.tolist()
-            input_emo = tokenizer(row[2], return_tensors="pt", truncation=True)
-            output_emo = model(**input_emo).pooler_output.tolist()
             dict = {}
             dict['text'] = row[3]
             dict['speaker'] = row[0]
             dict['cls'] = output[0]
-            dict['cls_emo'] = output_emo[0]
             if row[4] == 'UNK':
                 dict['label'] = row[4]
             else:

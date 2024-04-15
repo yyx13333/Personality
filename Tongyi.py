@@ -108,5 +108,4 @@ def semanticExtension():
     p.close()
 
 if __name__ == '__main__':
-    # call_with_messages('可以的！')
     semanticExtension()

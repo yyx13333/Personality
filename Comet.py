@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
 
     # 准备输入文本
-    input_text2 = "{you are good [GEN] oReact"
+    input_text2 = "{牛哇牛 ！[GEN] oReact"
     # 使用tokenizer对输入文本进行编码
     input_ids = tokenizer(input_text2, return_tensors="pt", truncation=True, padding="max_length").input_ids
     print(input_ids.shape)

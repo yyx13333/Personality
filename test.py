@@ -107,7 +107,7 @@ if __name__ == '__main__':
 
         writer = SummaryWriter()
 
-    logger = get_logger('./logging.log1')
+    logger = get_logger('./logging.log2')
     logger.info('start training on GPU {}!'.format(os.environ["CUDA_VISIBLE_DEVICES"]))
     logger.info(args)
 
@@ -139,14 +139,11 @@ if __name__ == '__main__':
     for e in range(n_epochs):
         start_time = time.time()
         train_loss, train_acc, _, _, train_micro_fscore, train_macro_fscore = train_or_eval_model(model, loss_function,
-                                                                                                  train_loader, e, cuda,
-                                                                                                  args, optimizer, True)
+                                                                                                  train_loader, e, cuda,                                                                                   args, optimizer, True)
         logger.info(
             'Epoch: {}, train_loss: {}, train_acc: {}, train_micro_fscore: {}, train_macro_fscore: {}, time: {} sec'. \
                 format(e + 1, train_loss, train_acc, train_micro_fscore, train_macro_fscore,
                        round(time.time() - start_time, 2)))
-
-
 
     if args.tensorboard:
         writer.close()
