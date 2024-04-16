@@ -16,7 +16,7 @@ class CPEDDataset(Dataset):
         self.len = len(self.data)
 
     def read(self, dataset_name, split, tokenizer):
-        with open("../data/myCPED/tarin_data_bert.json.feature", encoding="utf-8") as f:
+        with open("../data/myCPED/new_tarin_data_bert.json.feature_test", encoding="utf-8") as f:
             raw_data = json.load(f)
 
         diglogs = []
@@ -124,20 +124,13 @@ class CPEDDataset(Dataset):
             lengths: (B, )
             utterances:  not a tensor
         '''
-        #----------------------------------------------------
-        max_diglog_len = max([d[3] for d in data])
-        for d in data:
-            print(d)
-            print(
-                "------------------------------------------------------------------------------------------------------")
-            features = pad_sequence([d[0]], batch_first=True)
-
-
-        # features = pad_sequence([d[0] for d in data], batch_first=True)
-        labels = pad_sequence([d[1] for d in data], batch_first=True, padding_value=-1)
-        adj = self.get_adj_v1([d[2] for d in data], max_diglog_len)
-        s_mask, s_mask_onehot = self.get_s_mask([d[2] for d in data], max_diglog_len)
+        max_dialog_len = max([d[3] for d in data])
+        feaures = pad_sequence([d[0] for d in data], batch_first = True) # (B, N, D)
+        labels = pad_sequence([d[1] for d in data], batch_first = True, padding_value = -1) # (B, N )
+        adj = self.get_adj_v1([d[2] for d in data], max_dialog_len)
+        s_mask, s_mask_onehot = self.get_s_mask([d[2] for d in data], max_dialog_len)
         lengths = torch.LongTensor([d[3] for d in data])
-        speakers = pad_sequence([torch.LongTensor(d[2]) for d in data], batch_first=True, padding_value=-1)
+        speakers = pad_sequence([torch.LongTensor(d[2]) for d in data], batch_first = True, padding_value = -1)
         utterances = [d[4] for d in data]
-        return features, labels, adj, s_mask, s_mask_onehot, lengths, speakers, utterances
+
+        return feaures, labels, adj,s_mask, s_mask_onehot,lengths, speakers, utterances
