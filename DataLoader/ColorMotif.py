@@ -9,8 +9,8 @@ permutations_list = list(itertools.permutations(binary_numbers, 5))
 dict = {}
 all = {}
 all_list = []
-with open('../data/CPED/train_split.csv', encoding='utf-8') as file:
-    with open('../data/myCPED/colorMotif.csv', 'w', newline='',encoding='utf-8') as f:
+with open('../../data/CPED/train_split.csv', encoding='utf-8') as file:
+    with open('../../data/myCPED/colorMotif.csv', 'w', newline='', encoding='utf-8') as f:
         reader = csv.reader(file)
         writer = csv.writer(f)
         for row in reader:

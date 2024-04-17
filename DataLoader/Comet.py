@@ -4,9 +4,9 @@ from translate import Translator  # noqa
 
 
 if __name__ == "__main__":
-    config = AutoConfig.from_pretrained("../comet/config.json")
+    config = AutoConfig.from_pretrained("../../comet/config.json")
     model = AutoModelForSeq2SeqLM.from_pretrained("../comet/pytorch_model.bin", config=config)
-    tokenizer = AutoTokenizer.from_pretrained("../comet/",
+    tokenizer = AutoTokenizer.from_pretrained("../../comet/",
                                               config="../comet/tokenizer_config.json",
                                               vocab_file="../comet/vocab.json")
 

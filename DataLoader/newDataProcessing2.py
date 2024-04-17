@@ -36,7 +36,7 @@ import csv
 #     file.close()
 #
 
-with open('../data/CPED/train_split.csv', encoding='utf-8') as file:
+with open('../../data/CPED/train_split.csv', encoding='utf-8') as file:
     reader = csv.reader(file)
     tv_id = ''
     content = ''
@@ -68,8 +68,8 @@ with open('../data/CPED/train_split.csv', encoding='utf-8') as file:
     print(new_list)
     file.close()
 i = 0
-with open('../data/CPED/new_train_split.csv', "w",encoding='utf-8',newline='') as f:
-    with open('../data/CPED/train_split.csv', encoding='utf-8') as p:
+with open('../../data/CPED/new_train_split.csv', "w", encoding='utf-8', newline='') as f:
+    with open('../../data/CPED/train_split.csv', encoding='utf-8') as p:
         reader = csv.reader(p)
         my_writer = csv.writer(f)
         for row in reader:
@@ -82,7 +82,7 @@ p.close()
 f.close()
 
 
-with open('../data/CPED/new_train_split.csv', encoding='utf-8') as f:
+with open('../../data/CPED/new_train_split.csv', encoding='utf-8') as f:
     reader = csv.reader(f)
     count = 0
     for row in reader:

@@ -8,9 +8,9 @@ import csv
 from tensorboardX import FileWriter
 from translate import Translator
 
-with open('../data/CPED/train_split.csv', encoding='utf-8') as file:
+with open('../../data/CPED/train_split.csv', encoding='utf-8') as file:
     reader = csv.reader(file)
-    with open('../data/myCPED/new_myCPED.csv', 'w', newline='',encoding='utf-8') as f:
+    with open('../../data/myCPED/new_myCPED.csv', 'w', newline='', encoding='utf-8') as f:
         myData = csv.writer(f)
         dialogue_ID = ''
         Utterance_ID = ''

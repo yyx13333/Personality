@@ -9,7 +9,7 @@ import torch
 from torch import nn
 from transformers import AdamW
 
-from dataloader import get_CPED_loaders
+from myProject1.DataLoader.dataloader import get_CPED_loaders
 from model import DAGERC_fushion
 from trainer import train_or_eval_model
 
@@ -107,7 +107,7 @@ if __name__ == '__main__':
 
         writer = SummaryWriter()
 
-    logger = get_logger('./logging.log2')
+    logger = get_logger('Log/logging.log2')
     logger.info('start training on GPU {}!'.format(os.environ["CUDA_VISIBLE_DEVICES"]))
     logger.info(args)
 

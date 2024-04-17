@@ -68,7 +68,7 @@ def call_with_messages(myStr):
 
 def semanticExtension():
     with open("./myCPEDTongyi.csv","w",encoding="utf-8") as p:
-        with open("../data/CPED/train_split.csv", "r", encoding="utf-8") as f:
+        with open("../../data/CPED/train_split.csv", "r", encoding="utf-8") as f:
             reader = csv.reader(f)
             writer = csv.writer(p)
             count = 0

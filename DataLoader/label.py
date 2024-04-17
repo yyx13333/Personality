@@ -3,8 +3,8 @@ import json
 import pickle
 
 # ------------------CPED数据集中speaker标签转换为pkl文件-----------
-with open("../data/CPED/speakers.txt", "r", encoding='utf-8') as f:
-    with open("../data/myCPED/speaker_vocab.pkl", "wb") as g:
+with open("../../data/CPED/speakers.txt", "r", encoding='utf-8') as f:
+    with open("../../data/myCPED/speaker_vocab.pkl", "wb") as g:
         reader = csv.reader(f)
         dict_all = {}
         dict_row = {}
@@ -22,7 +22,7 @@ with open("../data/CPED/speakers.txt", "r", encoding='utf-8') as f:
         g.close()
 
 # -------------------------------label标签转换为pkl文件-----------
-with open("../data/myCPED/label_vocab.pkl", "wb") as f:
+with open("../../data/myCPED/label_vocab.pkl", "wb") as f:
     reader = csv.reader(f)
     dict_all = {}
     dict_row = {}
