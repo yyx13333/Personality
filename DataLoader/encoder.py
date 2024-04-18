@@ -13,12 +13,12 @@ from translate import Translator  # noqa
 #                                           vocab_file="../../bert/vocab.txt")
 config = AutoConfig.from_pretrained("../../bert/config.json")
 tokenizer = BertTokenizer.from_pretrained("../../bert/",
-                                          config="../bert/tokenizer_config.json",
-                                          vocab_file="../bert/vocab.txt")
+                                          config="../../bert/tokenizer_config.json",
+                                          vocab_file="../../bert/vocab.txt")
 model = BertModel.from_pretrained("../../bert/pytorch_model.bin", config=config)
 
 # -------------------------打开myCPED.csv文件------------------------------
-with open("../../data/myCPED/new_tarin_data_bert.json.feature_test", "w", encoding="utf-8") as file:
+with open("../feature/tarin_data_bert.json.feature_noemo_neuroticism", "w", encoding="utf-8") as file:
     with open("../../data/myCPED/myCped_clearing.csv", "r", encoding="utf-8") as f:
         reader = csv.reader(f)
         count = 0
