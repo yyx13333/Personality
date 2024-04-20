@@ -85,7 +85,7 @@ if __name__ == '__main__':
 
     parser.add_argument('--batch_size', type=int, default=8, metavar='BS', help='batch size')
 
-    parser.add_argument('--epochs', type=int, default=100, metavar='E', help='number of epochs')
+    parser.add_argument('--epochs', type=int, default=60, metavar='E', help='number of epochs')
 
     parser.add_argument('--tensorboard', action='store_true', default=False, help='Enables tensorboard log')
 
@@ -107,7 +107,7 @@ if __name__ == '__main__':
 
         writer = SummaryWriter()
 
-    logger = get_logger('Log/logging.log2')
+    logger = get_logger('Log/noemo_neuroticism.log')
     logger.info('start training on GPU {}!'.format(os.environ["CUDA_VISIBLE_DEVICES"]))
     logger.info(args)
 

@@ -18,7 +18,7 @@ tokenizer = BertTokenizer.from_pretrained("../../bert/",
 model = BertModel.from_pretrained("../../bert/pytorch_model.bin", config=config)
 
 # -------------------------打开myCPED.csv文件------------------------------
-with open("../feature/tarin_data_bert.json.feature_noemo_neuroticism", "w", encoding="utf-8") as file:
+with open("../../feature/tarin_data_bert.json.feature_emo_conscientiousness", "w", encoding="utf-8") as file:
     with open("../../data/myCPED/myCped_clearing.csv", "r", encoding="utf-8") as f:
         reader = csv.reader(f)
         count = 0
@@ -36,7 +36,7 @@ with open("../feature/tarin_data_bert.json.feature_noemo_neuroticism", "w", enco
                 print(diglog)
                 all.append(diglog)
                 diglog = []
-            input_text = row[3]
+            input_text = '以一种'+row[2]+'的情绪说出'+row[3]
             # 使用tokenizer对输入文本进行编码
             input_ids = tokenizer(input_text, return_tensors="pt", truncation=True)
             output = model(**input_ids).pooler_output.tolist()
@@ -47,7 +47,7 @@ with open("../feature/tarin_data_bert.json.feature_noemo_neuroticism", "w", enco
             if row[4] == 'UNK':
                 dict['label'] = row[4]
             else:
-                dict['label'] = row[4][0]
+                dict['label'] = row[4][4]
             dict['ent'] = row[2]
             diglog.append(dict)
         file.write(json.dumps(all, ensure_ascii=False))

@@ -4,6 +4,8 @@ from torch.utils.data import SubsetRandomSampler, DataLoader
 
 from dataset import *
 
+from myProject1.dataset import CPEDDataset
+
 
 def get_train_valid_sample(trainset):
     size = len(trainset)

@@ -6,6 +6,7 @@
 import csv
 
 from tensorboardX import FileWriter
+from translate import Translator
 
 with open('../../data/CPED/new_train_split.csv', encoding='utf-8') as file:
     reader = csv.reader(file)
@@ -16,6 +17,7 @@ with open('../../data/CPED/new_train_split.csv', encoding='utf-8') as file:
         count = 0
         SpeakerA = ''
         SpeakerB = ''
+        fanyi = {}
         for row in reader:
             newRow = []
             if Dialogue_ID != row[1]:
@@ -39,7 +41,9 @@ with open('../../data/CPED/new_train_split.csv', encoding='utf-8') as file:
             count = count + 1
             newRow.append(count)
             # ------------------对话情绪及说话内容赋值----------------
-            newRow.append(row[15])
+            if row[15] not in fanyi.keys():
+                fanyi[row[15]] = Translator(from_lang="English",to_lang="Chinese").translate(row[15])
+            newRow.append(fanyi[row[15]])
             newRow.append(row[17])
             # ------------------将分类写入文件----------------
             cls = ''
@@ -52,4 +56,5 @@ with open('../../data/CPED/new_train_split.csv', encoding='utf-8') as file:
                 cls = 'UNK'
             newRow.append(cls)
             # ------------将newRow写入csv文件------------------------
+            print(newRow)
             myData.writerow(newRow)
