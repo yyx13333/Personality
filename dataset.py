@@ -16,7 +16,7 @@ class CPEDDataset(Dataset):
         self.len = len(self.data)
 
     def read(self, dataset_name, split, tokenizer):
-        with open("../../feature/tarin_data_bert.json.feature_noemo_neuroticism", encoding="utf-8") as f:
+        with open("../feature/tarin_data_bert.json.feature_emo_conscientiousness", encoding="utf-8") as f:
             raw_data = json.load(f)
 
         diglogs = []

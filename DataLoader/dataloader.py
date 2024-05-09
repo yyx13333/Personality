@@ -14,8 +14,8 @@ def get_train_valid_sample(trainset):
 
 
 def load_vocab():
-    speaker_vocab = pickle.load(open('../../data/myCPED/speaker_vocab.pkl', 'rb'))
-    label_vocab = pickle.load(open('../../data/myCPED/label_vocab.pkl', 'rb'))
+    speaker_vocab = pickle.load(open('../data/myCPED/speaker_vocab.pkl', 'rb'))
+    label_vocab = pickle.load(open('../data/myCPED/label_vocab.pkl', 'rb'))
     person_vec = None
     return speaker_vocab, label_vocab, person_vec
 
