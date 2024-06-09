@@ -43,7 +43,9 @@ def sample_sync_call_streaming():
 
 
 
-prompt = '你是一个擅长挖掘对话中心理特征信息的对话助手，下面是一段对话，将说话者说的话语情绪增强，但是却要符合对话原有的意思”'
+prompt = '用于提示生成预言性常识推理的大型语言模型的模板输入如下：给定听者和说话者之间的二元对话片段，' \
+         '目标是理解对话并进行推理以识别说话者内部的心理(对听者陈述的话语起作用的原因)。' \
+         '”'
 def call_with_messages(myStr):
     one = {'role': 'system',
            'content': prompt}
@@ -67,45 +69,41 @@ def call_with_messages(myStr):
         ))
 
 def semanticExtension():
-    with open("./myCPEDTongyi.csv","w",encoding="utf-8") as p:
-        with open("../../data/CPED/train_split.csv", "r", encoding="utf-8") as f:
+    with open("./myCPEDTongyi.csv","w",encoding="utf-8" ,newline='') as p:
+        with open("../../data/myCPED/myCped_clearing_0_200.csv", "r", encoding="utf-8") as f:
             reader = csv.reader(f)
             writer = csv.writer(p)
             count = 0
             flag = 0
-            dialogue_ID = ''
+            lunci = 0
             newRow = []
             myStr = ''
             for row in reader:
                 if flag == 0:
                     flag = 1
                     continue
-                #---------------------------
-                if dialogue_ID == '':
-                    dialogue_ID = row[1]
-                if row[1] != dialogue_ID:
-                    if count <= 60:
+                #----------说明是新一轮对话-------------
+                if lunci > int(row[1]):
+                    if lunci < 60:
                         t = call_with_messages(myStr)
-                    if t == '':
-                        t = 'None'
-                    newRow.append(dialogue_ID)
-                    newRow.append(t)
-                    writer.writerow(newRow)
+                        if t == '':
+                            print("违规内容:"+myStr)
+                        else:
+                            writer.writerow(t)
                     newRow = []
-                    count = 0
-                    print(t)
                     myStr = ''
-                    myStr += row[3]+'以一种'+row[15]+'的情绪说:'+row[17]+'。'
+                    lunci = int(row[1])
+                    myStr += row[0] + '以一种' + row[2] + '的情绪说:' + row[3] + '。'
                 else:
-                    count += 1
-                    myStr += row[3] +'以一种' + row[15] + '的情绪说:' + row[17] + '。'
-
+                    lunci = int(row[1])
+                    myStr += row[0] + '以一种' + row[2] + '的情绪说:' + row[3] + '。'
             t = call_with_messages(myStr)
-            newRow.append(dialogue_ID)
-            newRow.append(t)
-            writer.writerow(newRow)
+            writer.writerow(t)
         f.close()
     p.close()
 
 if __name__ == '__main__':
     semanticExtension()
+
+
+

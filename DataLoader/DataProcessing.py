@@ -8,9 +8,59 @@ import csv
 from tensorboardX import FileWriter
 from translate import Translator
 
+# with open('../../data/CPED/new_train_split.csv', encoding='utf-8') as file:
+#     reader = csv.reader(file)
+#     with open('../../data/myCPED/myCped_clearing.csv', 'w', newline='', encoding='utf-8') as f:
+#         myData = csv.writer(f)
+#         Dialogue_ID = ''
+#         Utterance_ID = ''
+#         count = 0
+#         SpeakerA = ''
+#         SpeakerB = ''
+#         fanyi = {}
+#         for row in reader:
+#             newRow = []
+#             if Dialogue_ID != row[1]:
+#                 Dialogue_ID = row[1]
+#                 count = 0
+#                 SpeakerA = ''
+#                 SpeakerB = ''
+#             # --------给说话者A和B赋值------------
+#             if SpeakerA == '':
+#                 SpeakerA = row[3]
+#             if SpeakerB == '' and SpeakerA != row[3]:
+#                 SpeakerB = row[3]
+#             # --------------判断当前说话者是A还是B----------------
+#             if SpeakerA == row[3]:
+#                 newRow.append(SpeakerA)
+#             elif SpeakerB == row[3]:
+#                 newRow.append(SpeakerB)
+#             else:
+#                 newRow.append(row[3])
+#             # ------------------对话轮次赋值----------------
+#             count = count + 1
+#             newRow.append(count)
+#             # ------------------对话情绪及说话内容赋值----------------
+#             if row[15] not in fanyi.keys():
+#                 fanyi[row[15]] = Translator(from_lang="English",to_lang="Chinese").translate(row[15])
+#             newRow.append(fanyi[row[15]])
+#             newRow.append(row[17])
+#             # ------------------将分类写入文件----------------
+#             cls = ''
+#             for i in range(6, 11):
+#                 if row[i] == 'high':
+#                     cls = cls + '1'
+#                 elif row[i] == 'low':
+#                     cls = cls + '0'
+#             if len(cls) < 5:
+#                 cls = 'UNK'
+#             newRow.append(cls)
+#             # ------------将newRow写入csv文件------------------------
+#             print(newRow)
+#             myData.writerow(newRow)
 with open('../../data/CPED/new_train_split.csv', encoding='utf-8') as file:
     reader = csv.reader(file)
-    with open('../../data/myCPED/myCped_clearing.csv', 'w', newline='', encoding='utf-8') as f:
+    with open('../../data/myCPED/myCped_clearing_0_200.csv', 'w', newline='', encoding='utf-8') as f:
         myData = csv.writer(f)
         Dialogue_ID = ''
         Utterance_ID = ''
@@ -18,9 +68,14 @@ with open('../../data/CPED/new_train_split.csv', encoding='utf-8') as file:
         SpeakerA = ''
         SpeakerB = ''
         fanyi = {}
+        t = 0
         for row in reader:
             newRow = []
             if Dialogue_ID != row[1]:
+                if t < 200:
+                    t = t+1
+                else:
+                    break
                 Dialogue_ID = row[1]
                 count = 0
                 SpeakerA = ''
@@ -41,9 +96,10 @@ with open('../../data/CPED/new_train_split.csv', encoding='utf-8') as file:
             count = count + 1
             newRow.append(count)
             # ------------------对话情绪及说话内容赋值----------------
-            if row[15] not in fanyi.keys():
-                fanyi[row[15]] = Translator(from_lang="English",to_lang="Chinese").translate(row[15])
-            newRow.append(fanyi[row[15]])
+            # if row[15] not in fanyi.keys():
+            #     fanyi[row[15]] = Translator(from_lang="English",to_lang="Chinese").translate(row[15])
+            # newRow.append(fanyi[row[15]])
+            newRow.append(row[15])
             newRow.append(row[17])
             # ------------------将分类写入文件----------------
             cls = ''

@@ -38,7 +38,8 @@ with open('../../data/CPED/train_split.csv', encoding='utf-8') as file:
                     pass
                 else:
                     dict_emo[emotion] = Translator(from_lang="English",to_lang="Chinese").translate(emotion)
-                newRow.append(dict_emo[emotion])
+                newRow.append(dict_emo[emotion]
+                              )
                 newRow.append(context)
                 newRow.append(cls)
                 myData.writerow(newRow)
