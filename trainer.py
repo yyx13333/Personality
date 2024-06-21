@@ -17,7 +17,7 @@ def train_or_eval_model(model, loss_function, dataloader, epoch, cuda, args, opt
     for data in dataloader:
         if train:
             optimizer.zero_grad()
-        features, label, adj, s_mask, s_mask_onehot, lengths, speakers, utterances = data
+        features, label, adj, s_mask, s_mask_onehot, lengths, speakers, utterances, t = data
         if cuda:
             features = features.cuda()
             label = label.cuda()
@@ -25,9 +25,10 @@ def train_or_eval_model(model, loss_function, dataloader, epoch, cuda, args, opt
             s_mask = s_mask.cuda()
             s_mask_onehot = s_mask_onehot.cuda()
             lengths = lengths.cuda()
+            t = t.cuda()
 
         # print(speakers)
-        log_prob = model(features, adj, s_mask, s_mask_onehot, lengths)  # (B, N, C)
+        log_prob = model(features, adj, s_mask, s_mask_onehot, lengths,t)  # (B, N, C)
         # print(label)
         loss = loss_function(log_prob.permute(0, 2, 1), label)
 

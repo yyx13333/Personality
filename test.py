@@ -79,13 +79,13 @@ if __name__ == '__main__':
 
     parser.add_argument('--max_grad_norm', type=float, default=5.0, help='Gradient clipping.')
 
-    parser.add_argument('--lr', type=float, default=0.001, metavar='LR', help='learning rate')
+    parser.add_argument('--lr', type=float, default=0.005, metavar='LR', help='learning rate')
 
-    parser.add_argument('--dropout', type=float, default=0.6, metavar='dropout', help='dropout rate')
+    parser.add_argument('--dropout', type=float, default=0.5 , metavar='dropout', help='dropout rate')
 
     parser.add_argument('--batch_size', type=int, default=8, metavar='BS', help='batch size')
 
-    parser.add_argument('--epochs', type=int, default=60, metavar='E', help='number of epochs')
+    parser.add_argument('--epochs', type=int, default=60,  metavar='E', help='number of epochs')
 
     parser.add_argument('--tensorboard', action='store_true', default=False, help='Enables tensorboard log')
 
@@ -107,7 +107,7 @@ if __name__ == '__main__':
 
         writer = SummaryWriter()
 
-    logger = get_logger('Log/emo_conscientiousness_0_500.log')
+    logger = get_logger('Log/emo_conscientiousness_0_50_debug.log')
     logger.info('start training on GPU {}!'.format(os.environ["CUDA_VISIBLE_DEVICES"]))
     logger.info(args)
 

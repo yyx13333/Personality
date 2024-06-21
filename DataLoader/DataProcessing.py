@@ -60,7 +60,7 @@ from translate import Translator
 #             myData.writerow(newRow)
 with open('../../data/CPED/new_train_split.csv', encoding='utf-8') as file:
     reader = csv.reader(file)
-    with open('../../data/myCPED/myCped_clearing_0_200.csv', 'w', newline='', encoding='utf-8') as f:
+    with open('../../data/myCPED/myCped_clearing_0_50.csv', 'w', newline='', encoding='utf-8') as f:
         myData = csv.writer(f)
         Dialogue_ID = ''
         Utterance_ID = ''
@@ -72,7 +72,7 @@ with open('../../data/CPED/new_train_split.csv', encoding='utf-8') as file:
         for row in reader:
             newRow = []
             if Dialogue_ID != row[1]:
-                if t < 200:
+                if t < 50:
                     t = t+1
                 else:
                     break

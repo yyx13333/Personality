@@ -1,14 +1,10 @@
+import torch
 
 
+a = torch.zeros(3,3,3)
 
 
-import csv
+b = torch.randn(3,3,3)
 
-
-
-
-
-
-
-with open("../../data/CPED/train_split.csv", "r", encoding="utf-8") as f:
-    reader = csv.reader(f)
+c = a[2][2][:] = b[2][2][:]
+print(a,b,c)

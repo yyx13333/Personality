@@ -1,0 +1,6 @@
+[2024-06-21 15:03:47,784][test.py][line:111][INFO] start training on GPU 0!
+[2024-06-21 15:03:47,784][test.py][line:112][INFO] Namespace(bert_model_dir='', bert_tokenizer_dir='', bert_dim=768, hidden_dim=512, mlp_layers=2, gnn_layers=2, emb_dim=768, attn_type='rgcn', no_rel_attn=False, max_sent_len=200, no_cuda=False, dataset_name='IEMOCAP', windowp=1, windowf=0, max_grad_norm=5.0, lr=0.005, dropout=0.5, batch_size=8, epochs=60, tensorboard=False, nodal_att_type=None, cuda=False)
+[2024-06-21 15:03:59,437][test.py][line:143][INFO] Epoch: 1, train_loss: 0.8739, train_acc: 71.88, train_micro_fscore: 82.58, train_macro_fscore: 36.71, time: 11.35 sec
+[2024-06-21 15:04:10,847][test.py][line:143][INFO] Epoch: 2, train_loss: 0.7312, train_acc: 66.67, train_micro_fscore: 78.38, train_macro_fscore: 52.83, time: 11.41 sec
+[2024-06-21 15:04:22,626][test.py][line:143][INFO] Epoch: 3, train_loss: 0.5954, train_acc: 77.08, train_micro_fscore: 87.06, train_macro_fscore: 43.53, time: 11.78 sec
+[2024-06-21 15:04:34,323][test.py][line:143][INFO] Epoch: 4, train_loss: 0.5817, train_acc: 77.08, train_micro_fscore: 87.06, train_macro_fscore: 43.53, time: 11.7 sec

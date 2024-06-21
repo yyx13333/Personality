@@ -18,8 +18,8 @@ tokenizer = BertTokenizer.from_pretrained("../../bert/",
 model = BertModel.from_pretrained("../../bert/pytorch_model.bin", config=config)
 
 # -------------------------打开myCPED.csv文件------------------------------
-with open("../../feature/tarin_data_bert.json0_1000", "w", encoding="utf-8") as file:
-    with open("../../data/myCPED/myCped_clearing_0_1000.csv", "r", encoding="utf-8") as f:
+with open("../../feature/tarin_data_bert.json0_50", "w", encoding="utf-8") as file:
+    with open("../../data/myCPED/myCped_clearing_0_50.csv", "r", encoding="utf-8") as f:
         reader = csv.reader(f)
         count = 0
         diglog = []

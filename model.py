@@ -1,3 +1,4 @@
+import torch
 from transformers import BertModel, BertConfig
 
 from model_utils import *
@@ -58,17 +59,29 @@ class DAGERC_fushion(nn.Module):
         in_dim = args.hidden_dim * (args.gnn_layers + 1) + args.emb_dim
 
         # output mlp layers
-        layers = [nn.Linear(in_dim, args.hidden_dim), nn.ReLU()]
+        layers = [nn.Linear(args.hidden_dim, args.hidden_dim), nn.ReLU()]
         for _ in range(args.mlp_layers - 1):
             layers += [nn.Linear(args.hidden_dim, args.hidden_dim), nn.ReLU()]
         layers += [self.dropout]
         layers += [nn.Linear(args.hidden_dim, num_class)]
-
         self.out_mlp = nn.Sequential(*layers)
 
+        self.pc = nn.Linear(in_dim, args.hidden_dim)
         self.attentive_node_features = attentive_node_features(in_dim)
+        self.lstmA = nn.LSTM(args.hidden_dim,
+                            args.hidden_dim,
+                            bidirectional=False,
+                            batch_first=True,
+                            dropout=args.dropout
+                            )
+        self.lstmB = nn.LSTM(args.hidden_dim,
+                            args.hidden_dim,
+                            bidirectional=False,
+                            batch_first=True,
+                            dropout=args.dropout
+                            )
 
-    def forward(self, features, adj, s_mask, s_mask_onehot, lengths):
+    def forward(self, features, adj, s_mask, s_mask_onehot, lengths,t):
         '''
         :param features: (B, N, D)
         :param adj: (B, N, N)
@@ -115,7 +128,36 @@ class DAGERC_fushion(nn.Module):
         H = torch.cat(H, dim=2)
 
         H = self.attentive_node_features(H, lengths, self.nodal_att_type)
+        H = self.pc(H)
+        A = torch.zeros(H.shape[0], H.shape[1], H.shape[2])
+        B = torch.zeros(H.shape[0], H.shape[1], H.shape[2])
+        for i in range(H.shape[0]):     #维度直接相加
+            i_c = -1
+            for i_t in t[i]:
+                i_c = i_c + 1
+                if i_t == '1':
+                    B[i][i_c][:] = H[i][i_c][:]
+                else:
+                    A[i][i_c][:] = H[i][i_c][:]
 
+        A,_ = self.lstmA(A)
+        B,_ = self.lstmB(B)
+
+        A = F.adaptive_avg_pool1d(A.permute(0,2,1),output_size=1).permute(0,2,1)
+        B = F.adaptive_avg_pool1d(B.permute(0, 2, 1), output_size=1).permute(0, 2, 1)
+        H = torch.cat((A,B),dim=1)
+#-----------------------------------------------------------------------
+        # T = torch.zeros(H.shape[0], 2, H.shape[2])
+        #
+        # for i in range(H.shape[0]):     #维度直接相加
+        #     i_c = -1
+        #     for i_t in t[i]:
+        #         i_c = i_c + 1
+        #         if i_t == '1':
+        #             T[i][0][:] += H[i][i_c][:]
+        #         else:
+        #             T[i][1][:] += H[i][i_c][:]
+#----------------------------------------------------------------------
         logits = self.out_mlp(H)
 
         return logits

@@ -16,7 +16,7 @@ class CPEDDataset(Dataset):
         self.len = len(self.data)
 
     def read(self, dataset_name, split, tokenizer):
-        with open("../feature/tarin_data_bert.json0_50", encoding="utf-8") as f:
+        with open("../feature/tarin_data_bert.json0_1000", encoding="utf-8") as f:
             raw_data = json.load(f)
 
         diglogs = []
@@ -26,33 +26,20 @@ class CPEDDataset(Dataset):
             speakers = []
             features = []
             flag = 0
-            speaker = ''
-            self.t = []
             for i, u in enumerate(d):
                 if flag == 0:
                     flag = 1
                     continue
                 uterances.append(u["text"])
-                if speaker == '':
-                    speaker = u['speaker']
-                    labels.append(self.label_vocab['stoi'][u["label"]] if 'label' in u.keys() else -1)
-                if speaker != u['speaker'] and flag == 1:
-                    flag = 2
-                    labels.append(self.label_vocab['stoi'][u["label"]] if 'label' in u.keys() else -1)
-                if speaker == u['speaker']:
-                    self.t.append('0')
-                else:
-                    self.t.append('1')
-                # labels.append(self.label_vocab['stoi'][u["label"]] if 'label' in u.keys() else -1)
-                speakers.append(self.speaker_vocab['stoi'][u['speaker']] if 'speaker' in u.keys() else -1)
+                labels.append(self.label_vocab['stoi'][u["label"]] if 'label' in u.keys() else -1)
+                speakers.append(self.speaker_vocab['stoi'][u['speaker']])
                 features.append(u['cls'])
 
             diglogs.append({
                 "utterances": uterances,
                 "labels": labels,
                 "speakers": speakers,
-                "features": features,
-                "t":self.t,
+                "features": features
             })
         random.shuffle(diglogs)
         return diglogs
@@ -64,9 +51,8 @@ class CPEDDataset(Dataset):
         return torch.FloatTensor(self.data[index]["features"]), \
             torch.LongTensor(self.data[index]["labels"]), \
             self.data[index]['speakers'], \
-            len(self.data[index]['speakers']), \
-            self.data[index]['utterances'],     \
-            self.data[index]['t']
+            len(self.data[index]['labels']), \
+            self.data[index]['utterances']
 
     def get_adj(self, speakers, max_dialog_len):
         '''
@@ -146,6 +132,5 @@ class CPEDDataset(Dataset):
         lengths = torch.LongTensor([d[3] for d in data])
         speakers = pad_sequence([torch.LongTensor(d[2]) for d in data], batch_first = True, padding_value = -1)
         utterances = [d[4] for d in data]
-        t = [d[5] for d in data]
 
-        return feaures, labels, adj,s_mask, s_mask_onehot,lengths, speakers, utterances,t
+        return feaures, labels, adj,s_mask, s_mask_onehot,lengths, speakers, utterances
